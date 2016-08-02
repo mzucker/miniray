@@ -1,7 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 // This is the "verbose" version of an obfuscated business card 
-// sized raytracer. Adding comments and whitespace increases the
-// size from 1294 bytes to 10127 bytes.
+// sized raytracer. 
 //
 // Compile this with full optimization and pipe the output to a file
 // named "mattz.pgm"
