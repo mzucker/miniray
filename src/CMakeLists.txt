@@ -25,11 +25,10 @@ set(RAYTRACERS_C
   miniray_3.3
   miniray_3.4
   miniray_3.5
-  miniray_3.5_unobs
   miniray_3.6
-  miniray_3.7.1
-  miniray_3.7.1_big
   miniray_3.7
+  miniray_3.8
+  miniray_3.8_commented
   zucker
   )
 
@@ -52,6 +51,9 @@ foreach(RAYTRACER ${RAYTRACERS})
     COMMAND time ./${RAYTRACER} > "${RAYTRACER}.ppm"
     DEPENDS ${RAYTRACER}
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
-  add_custom_target(${RAYTRACER}_image DEPENDS "${PROJECT_BINARY_DIR}/${RAYTRACER}.ppm")
+  add_custom_target(${RAYTRACER}_image
+    DEPENDS "${PROJECT_BINARY_DIR}/${RAYTRACER}.ppm")
   add_dependencies(ppm_images ${RAYTRACER}_image)
 endforeach()
+
+add_executable(encode "encode.cpp")

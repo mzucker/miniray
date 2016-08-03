@@ -65,7 +65,7 @@ f D(v p, v& n) {
   // initialize our distance query
   q h(p);
 
-  // encode "mattz" as bytecodes: see encode.cpp for details
+  // encode "mattz" as bytecodes
   u d[] = "`@@B@D$\x82$\x86\xe3\x8d`H\x81Jc)B\x96\x81Nc-B\x9e`1c1`q";
 
   // interpret bytecodes by calling S() and C() with the appropriate

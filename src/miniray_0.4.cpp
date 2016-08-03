@@ -73,7 +73,7 @@ i S(f x,f y,f s,f t,q& h) {
 f D(v p, v* n=0) {
   // initialize our distance query
   q h(p);
-  // encode "mattz" as bytecodes: see encode.cpp for details
+  // encode "mattz" as bytecodes
   i d[] = {
     1078091840,
     612515908,

@@ -921,7 +921,7 @@ void decode() {
 
       ox += w;
       w = c1 - SEP_0; 
-      if (print) std::cout << "\nstart(" << c0 << ", " << w << ")\n";
+      if (print) std::cout << "\nstart(" << cur << ", " << w << ")\n";
       X_COORD = 0;
       if (cnt++ >= 13) { oy += 6; ox = 1; cnt = 0;}
 
@@ -1040,6 +1040,9 @@ int main(int argc, char** argv) {
       std::cerr << "ARC_A0_SHIFT = " << ARC_A0_SHIFT << "\n";
       std::cerr << "ARC_A1_SHIFT = " << ARC_A1_SHIFT << "\n\n";
       std::cerr << "PADDING_VAL = 0x" << std::hex << PADDING_VAL << std::dec << "\n\n";
+      std::cerr << "SEP_0 = " << char(SEP_0) << "\n";
+      std::cerr << "SEP_1 = " << char(SEP_1) << "\n";
+      std::cerr << "SEP_2 = " << char(SEP_2) << "\n\n";
       
       std::cerr << "B* = \"" << dstr << "\"\n";
       std::cerr << "// data: " << dstr.length() << ", ideal: " << buf.size() << "\n";
