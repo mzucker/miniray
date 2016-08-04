@@ -20,14 +20,14 @@ set(RAYTRACERS_CPP
   )
 
 set(RAYTRACERS_C
-  miniray_3.2
-  miniray_3.3
-  miniray_3.4
-  miniray_3.5
-  miniray_3.6
-  miniray_3.7
-  miniray_3.8
-  miniray_3.8_commented
+  miniray_4.0
+  miniray_4.1
+  miniray_4.2
+  miniray_4.3
+  miniray_4.4
+  miniray_4.5
+  miniray_4.6
+  miniray_4.6_commented
   zucker
   )
 
