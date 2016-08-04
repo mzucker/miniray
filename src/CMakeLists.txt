@@ -13,9 +13,9 @@ set(RAYTRACERS_CPP
   miniray_1.4_commented
   miniray_2.0
   miniray_2.1
-  miniray_2.2b
-  miniray_2.3b
-  miniray_2.4b
+  miniray_2.2
+  miniray_2.3
+  miniray_2.4
   miniray_3.0
   miniray_3.1
   )
