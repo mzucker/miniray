@@ -7,6 +7,8 @@
 
 #include <stdio.h>
 #include <math.h>
+#define O operator
+#define E return
 
 // Start by saving some space:
 typedef float f;
