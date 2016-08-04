@@ -1,3 +1,5 @@
+// This file is identical to the final zucker.c entry, except for formatting.
+
 #include <stdio.h>
 #include <math.h>
 #define E return
@@ -5,8 +7,8 @@
 
 /*
   _abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
-  iiivc fvfccfFiivfivif fttiFvvFPiFffcvivvFvFiPiFFvifv
-  *                          *               
+   iiivc fvfccfFiivfivif fttiFvvFPiFffcvivvFvFiPiFFvifv
+   *                          *               
   */
 
 

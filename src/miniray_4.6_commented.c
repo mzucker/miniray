@@ -1,3 +1,6 @@
+// This file is identical to the final zucker.c entry, except for
+// variable and member identifers and formatting.
+
 #include <stdio.h>
 #include <math.h>
 
