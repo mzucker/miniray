@@ -18,7 +18,7 @@ To build:
 Using the software
 ==================
 
-For all versions, you can pipe the output to a PPM (displayable with ImageMagick `display` command among other apps):
+For all versions, you can pipe the output to a PPM image (displayable with ImageMagick `display` command among other apps):
 
     ./miniray > image.ppm
 
