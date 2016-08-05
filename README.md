@@ -30,4 +30,4 @@ For versions 4.2 and after, you can input your own text:
 See also
 ========
 
-  - <http://ioccc.org/2011/zucker/hint.html>
+  - <http://www.ioccc.org/years.html#2011_zucker>
