@@ -288,8 +288,8 @@ int main() {
 
       A = R(v(-2,4,25),
             !((!v(5,0,2)*x +
-               !v(-2,73)*-y)*.034 +
-              v(10.25,-2,-25)),
+               !v(-2,73)*-y) +
+              v(301,-59,-735)),
             2)*255;
       
       // Then output each channel of the pixel as a character. (see
