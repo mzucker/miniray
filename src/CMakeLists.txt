@@ -17,6 +17,7 @@ set(RAYTRACERS_CPP
   miniray_2.3
   miniray_2.4
   miniray_3.0
+  miniray_3.1
   )
 
 set(RAYTRACERS_C
