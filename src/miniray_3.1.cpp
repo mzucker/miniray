@@ -14,7 +14,7 @@
 
 typedef float f;
 
-f H=.5, Z=.33, Y=Z+Z, I, S=-1, y=-111;
+f H=.5, Z=.33, Y=Z+Z, S=-1, I, y=-111;
 
 //////////////////////////////////////////////////////////////////////
 // A basic vector class. Note all vector operations are overloaded
@@ -110,7 +110,7 @@ f D(v p) {
     x+=*b/4&15;
     int o=*b&3, a=*++b&7, y=*b/8&7;
 
-    v k(x,y), d(a*(o&1),o/2*a);
+    v k(x,y), d(o%2*a,o/2*a);
 
     if (o) 
 
@@ -144,14 +144,14 @@ f D(v p) {
       // arc's center.
       //
       f t=atan2(p.y-y*H,p.x-x*H),
-        l=-M_PI*(a/4&1), u=M_PI*(a/2&1);
+        l=a/4%2*-M_PI, u=a/2%2*M_PI;
       
       // Clamp t to the range given.
       t = t<l?l:t>u?u:t;
 
       // Compute the point along the arc closest to p (just given by
       // the angle t and radius r), and feed it to the distance query.
-      Q((k+v(cos(t),sin(t))*(a%2+2))*H);
+      Q(k*H+v(cos(t),sin(t))*(a%2*H+1));
 
     } 
 
@@ -278,7 +278,7 @@ int main() {
 
     // For each column:
     // x holds the horizontal pixel coordinate
-    for (f x=-301;++x<300; putchar(A.x), putchar(A.y), putchar(A.z))
+    for (f x=-301;++x<300; putchar(A.z))
 
       // Trace a ray from origin o along direction d, and compute the
       // scene color at the intersection. Instead of analytic ray
@@ -286,11 +286,13 @@ int main() {
       // distance to closest point in scene as a lower-bound of how
       // far we can step along the ray.
 
-      A = R(v(-2,4,25),
+      putchar((A = R(v(-2,4,25),
             !((!v(5,0,2)*x +
                !v(-2,73)*-y) +
               v(301,-59,-735)),
-            2)*255;
+                     2)*255).x),
+
+        putchar(A.y);
       
       // Then output each channel of the pixel as a character. (see
       // for loop increment above)
