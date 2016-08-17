@@ -34,21 +34,19 @@ struct v {
   // Dot product
   f operator%(v r) { return x*r.x + y*r.y + z*r.z; }
 
-  // Return a normalized version of this vector.
-  v operator!() { v&t=*this; return t*pow(t%t,-H); }
-
   // Vector addition
   v operator+(v r) { return v(x+r.x, y+r.y, z+r.z); }
 
-}  
+}
 
 // The vector L holds the light direction in world space. Defining it
 // right after the class declaration saves us a character or two later
 // on.
-  L=!v(S,1,2),
   W(1,1,1),
   P, C, M;
-  
+
+// Normalize vector
+v _(v t) { return t*pow(t%t, -H); }
 
 //////////////////////////////////////////////////////////////////////
 // Clamp any float to the [0,1] unit interval.
@@ -189,7 +187,7 @@ v R(v o, v d, f z) {
         
     if (l<.01) {
 
-      v p=M, n=!(P+C*S);
+      v p=M, n=_(P+C*S), L=_(v(S,1,2));
           
       // Ok, we have intersected! Now compute lighting, which consists
       // of three terms: a Lambertian term, a specular term, and ambient
@@ -247,7 +245,7 @@ v R(v o, v d, f z) {
       // between the surface color and white; this is physically
       // implausible, but doesn't require clamping (as does, for
       // instance, the Phong shading model).
-      u=pow(U(n%!(L+d*S)),40);
+      u=pow(U(n%_(L+d*S)),40);
 
       return p + p*-u + W*u;
       
@@ -282,9 +280,9 @@ int main() {
       // far we can step along the ray.
 
       putchar((P = R(v(-2,4,25),
-            !((!v(5,0,2)*x +
-               !v(-2,73)*-y) +
-              v(301,-59,-735)),
+                     _((_(v(5,0,2))*x +
+                        _(v(-2,73))*-y) +
+                       v(301,-59,-735)),
                      2)*255).x),
 
         putchar(P.y);
