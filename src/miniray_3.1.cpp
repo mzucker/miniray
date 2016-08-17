@@ -161,7 +161,7 @@ f D(v p) {
   // texture and assign the material accordingly; otherwise assign the
   // letter material.
   M = Q(v(p.x,-.9,p.z)) ?
-    (int((p.x+64)/8)^int((p.z+64)/8))&1 ? Y : W : v(Y,Y,1);
+    (int(p.x+64)^int(p.z+64))/8&1 ? Y : W : v(Y,Y,1);
 
 
   // Return the distance -- we subtract off a radius of .45 to give
