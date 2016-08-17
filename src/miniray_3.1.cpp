@@ -47,7 +47,7 @@ struct v {
 // on.
   L=!v(S,1,2),
   W(1,1,1),
-  P, C, M, N, A;
+  P, C, M;
   
 
 //////////////////////////////////////////////////////////////////////
@@ -85,17 +85,15 @@ f Q(v c) {
 //
 f D(v p) {
 
-  // P, I are the variables associated with the distance query
-  // function above.
-  //
+  const char* b="BCJB@bJBHbJCE[FLL_A[FLMCA[CCTT`T";
+  
   f x=0;
-
-  I=99;
-  P=p;
 
   // Encode the letters "mattz", see below for explanation:
   // Interpret bytecodes by iterating over string in 2-byte chunks.
-  for (const char* b="BCJB@bJBHbJCE[FLL_A[FLMCA[CCTT`T"; *b; ++b) {
+  // P, I are the variables associated with the distance query
+  // function above.
+  for (I=99, P=p; *b; ++b) {
 
     // Extract o, a, x, y from the current two bytes:
     //
@@ -165,8 +163,6 @@ f D(v p) {
   M = Q(v(p.x,-.9,p.z)) ?
     (int((p.x+64)/8)^int((p.z+64)/8))&1 ? Y : W : v(Y,Y,1);
 
-  // Compute the normal n.
-  N=P+C*S;
 
   // Return the distance -- we subtract off a radius of .45 to give
   // everything some dimension (otherwise all primitives would be
@@ -193,7 +189,7 @@ v R(v o, v d, f z) {
         
     if (l<.01) {
 
-      v p=M, n=!N;
+      v p=M, n=!(P+C*S);
           
       // Ok, we have intersected! Now compute lighting, which consists
       // of three terms: a Lambertian term, a specular term, and ambient
@@ -245,8 +241,7 @@ v R(v o, v d, f z) {
       //   the ambient occlusion term that we computed above.
       p = p*(U(n%L)*H*Y+Y)*a;
 
-      if (z) 
-        p = p*Y + R(o+n*.1,d+n*-2*(d%n),z-1)*H*Y;
+      p = z ? p*Y + R(o+n*.1,d+n*-2*(d%n),z-1)*H*Y : p;
 
       // Compute a specular term and use it to linearly interpolate
       // between the surface color and white; this is physically
@@ -278,7 +273,7 @@ int main() {
 
     // For each column:
     // x holds the horizontal pixel coordinate
-    for (f x=-301;++x<300; putchar(A.z))
+    for (f x=-301;++x<300; putchar(P.z))
 
       // Trace a ray from origin o along direction d, and compute the
       // scene color at the intersection. Instead of analytic ray
@@ -286,13 +281,13 @@ int main() {
       // distance to closest point in scene as a lower-bound of how
       // far we can step along the ray.
 
-      putchar((A = R(v(-2,4,25),
+      putchar((P = R(v(-2,4,25),
             !((!v(5,0,2)*x +
                !v(-2,73)*-y) +
               v(301,-59,-735)),
                      2)*255).x),
 
-        putchar(A.y);
+        putchar(P.y);
       
       // Then output each channel of the pixel as a character. (see
       // for loop increment above)
