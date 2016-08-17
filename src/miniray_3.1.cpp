@@ -6,15 +6,19 @@
 // named "mattz.ppm"
 
 #include <stdio.h>
-#include <math.h>
 
 // Start by saving some space:
-#define O operator
-#define E return
+//#define O operator
+//#define E return
 
-typedef float f;
+typedef double f;
 
 f H=.5, Y=.66, S=-1, I, y=-111;
+
+
+extern "C" {
+f cos(f), sin(f), pow(f, f), atan2(f, f);
+}
 
 //////////////////////////////////////////////////////////////////////
 // A basic vector class. Note all vector operations are overloaded
@@ -27,15 +31,15 @@ struct v {
 
   // Construct with 1, 2, or 3 elements
   v (f a=0, f b=0, f c=0): x(a), y(b), z(c) {}
+  
+  // Vector addition
+  v operator+(v r) { return v(x+r.x, y+r.y, z+r.z); }
 
   // Multiplication by scalar.
   v operator*(f s) { return v(x*s, y*s, z*s); }
 
   // Dot product
   f operator%(v r) { return x*r.x + y*r.y + z*r.z; }
-
-  // Vector addition
-  v operator+(v r) { return v(x+r.x, y+r.y, z+r.z); }
 
 }
 
@@ -45,13 +49,17 @@ struct v {
   W(1,1,1),
   P, C, M;
 
-// Normalize vector
-v _(v t) { return t*pow(t%t, -H); }
+
 
 //////////////////////////////////////////////////////////////////////
 // Clamp any float to the [0,1] unit interval.
 
 f U(f a) { return a<0?0:a>1?1:a; }
+
+// Normalize vector
+v _(v t) { return t*pow(t%t, -H); }
+
+
 
 //////////////////////////////////////////////////////////////////////
 // A helper function for distance queries. The scene is broken up into
@@ -83,15 +91,15 @@ f Q(v c) {
 //
 f D(v p) {
 
-  const char* b="BCJB@bJBHbJCE[FLL_A[FLMCA[CCTT`T";
   
   f x=0;
+  I=99; P=p;
 
   // Encode the letters "mattz", see below for explanation:
   // Interpret bytecodes by iterating over string in 2-byte chunks.
   // P, I are the variables associated with the distance query
   // function above.
-  for (I=99, P=p; *b; ++b) {
+  for (const char* b="BCJB@bJBHbJCE[FLL_A[FLMCA[CCTT`T"; *b; ++b) {
 
     // Extract o, a, x, y from the current two bytes:
     //
@@ -139,8 +147,7 @@ f D(v p) {
       // Also compute t, the angle of the point p with respect to the
       // arc's center.
       //
-      f t=atan2(p.y-y*H,p.x-x*H),
-        l=a/4%2*-M_PI, u=a/2%2*M_PI;
+      f l=a/4%2*-3.14, u=a/2%2*3.14, t=atan2(p.y-y*H,p.x-x*H);
       
       // Clamp t to the range given.
       t = t<l?l:t>u?u:t;
@@ -165,7 +172,7 @@ f D(v p) {
   // Return the distance -- we subtract off a radius of .45 to give
   // everything some dimension (otherwise all primitives would be
   // infinitely thin and we would only see the planes).
-  return sqrt(I)-.45;
+  return pow(I,H)-.45;
 
 }
 
