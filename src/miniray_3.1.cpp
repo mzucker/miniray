@@ -14,7 +14,7 @@
 
 typedef float f;
 
-f H=.5, Z=.33, Y=Z+Z, S=-1, I, y=-111;
+f H=.5, Y=.66, S=-1, I, y=-111;
 
 //////////////////////////////////////////////////////////////////////
 // A basic vector class. Note all vector operations are overloaded
@@ -243,10 +243,10 @@ v R(v o, v d, f z) {
       //
       //   Finally we take that entire thing and darken it up with
       //   the ambient occlusion term that we computed above.
-      p = p*(U(n%L)*Z+Y)*a;
+      p = p*(U(n%L)*H*Y+Y)*a;
 
       if (z) 
-        p = p*Y + R(o+n*.1,d+n*-2*(d%n),z-1)*Z;
+        p = p*Y + R(o+n*.1,d+n*-2*(d%n),z-1)*H*Y;
 
       // Compute a specular term and use it to linearly interpolate
       // between the surface color and white; this is physically
