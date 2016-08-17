@@ -20,7 +20,6 @@ extern "C" {
 f cos(f), pow(f, f), atan2(f, f);
 }
 
-
 //////////////////////////////////////////////////////////////////////
 // A basic vector class. Note all vector operations are overloaded
 // single character operators -- no "named" methods. Thanks, Bjarne!
@@ -275,6 +274,8 @@ v R(v o, v d, f z) {
 
 int main() {
 
+  
+  
   // Output the portable pixmap header (binary version).
   // Then, for each row:
   for (puts("P6 600 220 255"); ++y<110;) 
@@ -295,7 +296,7 @@ int main() {
                        v(301,-59,-735)),
                      2)*255).x),
 
-        putchar(P.y);
+       putchar(P.y);
       
       // Then output each channel of the pixel as a character. (see
       // for loop increment above)
