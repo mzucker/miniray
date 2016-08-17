@@ -14,6 +14,6 @@ return M=Q(v(p.x,-.9,p.z))?(int(p.x+64)^int(p.z+64))/8&1?Y:W:v(Y,Y,1
 +d*u))if(l<.01){v p=M,n=_(P+C*S),L=_(v(S,1,2));for(o=o+d*u;++i<6;a-=
 U(i/3-D(o+n*i*.3))/pow(2,i));p=p*(U(n%L)*H*Y+Y)*a;p=z?p*Y+R(o+n*.1,d
 +n*-2*(d%n),z-1)*H*Y:p;u=pow(U(n%_(L+d*S)),40);return p+p*-u+W*u;}z=
-d.z*d.z;return v(z,z,1);}int main(){for(puts("P6 600 220 255");++y<
+d.z*d.z;return v(z,z,1);} int main(){for(puts("P6 600 220 255");++y<
 110;)for(f x=-301;P=R(v(-2,4,25),_(_(v(5,0,2))*++x+_(v(-2,73))*-y+v(
 301,-59,-735)),2)*255,x<300;putchar(P.z))putchar(P.x),putchar(P.y);}
