@@ -63,7 +63,6 @@ f U(f a) { return a<0?0:a>1?1:a; }
 v _(v t) { return t*pow(t%t, -H); }
 
 
-
 //////////////////////////////////////////////////////////////////////
 // A helper function for distance queries. The scene is broken up into
 // a number of primitives. For some point P, we cycle through all the
@@ -167,14 +166,14 @@ f D(v p) {
   // to the distance query. If it is the closest, evaluate the floor
   // texture and assign the material accordingly; otherwise assign the
   // letter material.
-  M = Q(v(p.x,-.9,p.z)) ?
-    (int(p.x+64)^int(p.z+64))/8&1 ? Y : W : v(Y,Y,1);
-
+ 
 
   // Return the distance -- we subtract off a radius of .45 to give
   // everything some dimension (otherwise all primitives would be
   // infinitely thin and we would only see the planes).
-  return pow(I,H)-.45;
+  return  M = Q(v(p.x,-.9,p.z)) ?
+    (int(p.x+64)^int(p.z+64))/8&1 ? Y : W : v(Y,Y,1),
+    pow(I,H)-.45;
 
 }
 
@@ -214,7 +213,7 @@ v R(v o, v d, f z) {
       //
       // First update o to put it at the point of intersection, then 
       // Take 5 steps along the normal:
-      for (o=o+d*u; ++i<6;)  
+      for (o=o+d*u; ++i<6; a -= U(i/3-D(o+n*i*.3))/pow(2,i));
 
         // OK, we are comparing two distances here:
         //
@@ -235,11 +234,9 @@ v R(v o, v d, f z) {
         // a factor of 2 (occlusion at larger distances matter
         // exponentially less).
         //
-        a -= U(i/3-D(o+n*i*.3))/pow(2,i);
+        
 
       // Do all the lighting now:
-      //
-      //   v(m,m,1) is the color (white or blue)
       //
       //   U(n%L)/3+.65 is a blend of 0.33 Lambertian and 0.65
       //   ambient, and modulates the color.
@@ -282,7 +279,17 @@ int main() {
 
     // For each column:
     // x holds the horizontal pixel coordinate
-    for (f x=-301;++x<300; putchar(P.z))
+    for (f x=-301;
+
+         P = R(v(-2,4,25),
+               _(_(v(5,0,2))*++x +
+                 _(v(-2,73))*-y +
+                 v(301,-59,-735)),
+               2)*255, x<300;
+
+         putchar(P.z)
+
+         )
 
       // Trace a ray from origin o along direction d, and compute the
       // scene color at the intersection. Instead of analytic ray
@@ -290,13 +297,7 @@ int main() {
       // distance to closest point in scene as a lower-bound of how
       // far we can step along the ray.
 
-      putchar((P = R(v(-2,4,25),
-                     _((_(v(5,0,2))*x +
-                        _(v(-2,73))*-y) +
-                       v(301,-59,-735)),
-                     2)*255).x),
-
-       putchar(P.y);
+      putchar(P.x), putchar(P.y);
       
       // Then output each channel of the pixel as a character. (see
       // for loop increment above)
