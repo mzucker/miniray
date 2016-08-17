@@ -13,12 +13,13 @@
 
 typedef double f;
 
+
 f H=.5, Y=.66, S=-1, I, y=-111;
 
-
 extern "C" {
-f cos(f), sin(f), pow(f, f), atan2(f, f);
+f cos(f), pow(f, f), atan2(f, f);
 }
+
 
 //////////////////////////////////////////////////////////////////////
 // A basic vector class. Note all vector operations are overloaded
@@ -31,15 +32,16 @@ struct v {
 
   // Construct with 1, 2, or 3 elements
   v (f a=0, f b=0, f c=0): x(a), y(b), z(c) {}
-  
+
+  // Dot product
+  f operator%(v r) { return x*r.x + y*r.y + z*r.z; }
+
   // Vector addition
   v operator+(v r) { return v(x+r.x, y+r.y, z+r.z); }
 
   // Multiplication by scalar.
   v operator*(f s) { return v(x*s, y*s, z*s); }
 
-  // Dot product
-  f operator%(v r) { return x*r.x + y*r.y + z*r.z; }
 
 }
 
@@ -51,10 +53,12 @@ struct v {
 
 
 
+
 //////////////////////////////////////////////////////////////////////
 // Clamp any float to the [0,1] unit interval.
 
 f U(f a) { return a<0?0:a>1?1:a; }
+
 
 // Normalize vector
 v _(v t) { return t*pow(t%t, -H); }
@@ -92,8 +96,9 @@ f Q(v c) {
 f D(v p) {
 
   
-  f x=0;
   I=99; P=p;
+  f l, u, t;
+  v k;
 
   // Encode the letters "mattz", see below for explanation:
   // Interpret bytecodes by iterating over string in 2-byte chunks.
@@ -111,28 +116,14 @@ f D(v p) {
     //
     //   x and y are 5-bit scene coordinates.
     //
-    x+=*b/4&15;
-    int o=*b&3, a=*++b&7, y=*b/8&7;
+    k.x+=*b/4&15;
+    int o=*b&3, a=*++b&7;
+    k.y=*b/8&7;
 
-    v k(x,y), d(o%2*a,o/2*a);
+    v d(o%2*a,o/2*a);
 
-    if (o) 
+    !o ? 
 
-      // The current primitive is a line segment extending
-      // from (x,y) to (x+dx, y+dy), where:
-      //
-      //   dx = a if the low bit of o is set, otherwise zero.
-      //
-      //   dy = a if the middle bit of o is set, otherwise zero.
-      //
-      // Here, k stores the point (x,y), d stores the vector (dx,dy)
-      //
-
-      // Compute the closest point along the line segment and
-      // feed it to the distance query. 
-      Q(k+d*U((p+k*S)%d/(d%d)));
-
-    else {
 
       // The current primitive is an arc centered around
       // (x,y) with starting angle l, ending angle u,
@@ -147,18 +138,30 @@ f D(v p) {
       // Also compute t, the angle of the point p with respect to the
       // arc's center.
       //
-      f l=a/4%2*-3.14, u=a/2%2*3.14, t=atan2(p.y-y*H,p.x-x*H);
+      l=a/4%2*-3.14, u=a/2%2*3.14, d=p+k*-H, t=atan2(d.y, d.x),
       
       // Clamp t to the range given.
-      t = t<l?l:t>u?u:t;
+        t = t<l?l:t>u?u:t,
 
       // Compute the point along the arc closest to p (just given by
       // the angle t and radius r), and feed it to the distance query.
-      Q(k*H+v(cos(t),sin(t))*(a%2*H+1));
+      Q(k*H+v(cos(t),cos(t-1.57))*(a%2*H+1))
 
-    } 
+    :
 
-
+      // The current primitive is a line segment extending
+      // from (x,y) to (x+dx, y+dy), where:
+      //
+      //   dx = a if the low bit of o is set, otherwise zero.
+      //
+      //   dy = a if the middle bit of o is set, otherwise zero.
+      //
+      // Here, k stores the point (x,y), d stores the vector (dx,dy)
+      //
+      // Compute the closest point along the line segment and
+      // feed it to the distance query. 
+      Q(k+d*U((p+k*S)%d/(d%d)));
+  
   } // Looping though primitives
 
   // Find the projections of point p onto the floor plane and feed it
